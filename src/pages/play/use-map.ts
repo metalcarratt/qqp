@@ -3,7 +3,7 @@ import { floor } from "./objects/floor";
 import { wall } from "./objects/wall";
 import { CommonObject } from "./object-types";
 import { GlobalState } from "./use-global-state";
-import { Obj, UseObjects, useObjects } from "./use-objects";
+import { Obj, useObjects } from "./use-objects";
 
 const startGrid = [
   [1, 1, 1, 1, 1, 1],
@@ -41,7 +41,7 @@ type Cell = {
 
 export const useMap = (globalState: GlobalState): MapDetails => {
   const { updatePlayer, killObjs, objAt } = useObjects();
-  const [grid, setGrid] = useState(startGrid);
+  const [grid] = useState(startGrid);
   //   const { updatePlayer, killObjs, objAt } = useObjects();
 
   const map: GameMap = {
