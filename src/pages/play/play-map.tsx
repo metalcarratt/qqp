@@ -40,6 +40,20 @@ export const PlayMap = () => {
             <div className={styles.state}>
                 Diamonds: { global.diamonds }
             </div>
+            <div className={styles.controls}>
+                <table cellSpacing="10">
+                    <tr>
+                        <td/>
+                        <td className={styles.arrow} onClick={() => map.up()}>🠉</td>
+                        <td/>
+                    </tr>
+                    <tr>
+                        <td className={styles.arrow} onClick={() => map.left()}>🠈</td>
+                        <td className={styles.arrow} onClick={() => map.down()}>🠋</td>
+                        <td className={styles.arrow} onClick={() => map.right()}>🠊</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     );
 }
