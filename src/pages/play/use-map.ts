@@ -36,11 +36,11 @@ export type MapDetails = {
 
 type Cell = {
   terrain: CommonObject;
-  object?: CommonObject;
+  objects?: CommonObject[];
 };
 
 export const useMap = (globalState: GlobalState): MapDetails => {
-  const { updatePlayer, killObjs, objAt } = useObjects();
+  const { updatePlayer, killObjs, objAt, objsAt } = useObjects();
   const [grid] = useState(startGrid);
   //   const { updatePlayer, killObjs, objAt } = useObjects();
 
@@ -48,10 +48,10 @@ export const useMap = (globalState: GlobalState): MapDetails => {
     forEach: (fn) => {
       grid.forEach((row, y) =>
         row.forEach((_cell, x) => {
-          const objat = objAt([x, y]);
+          const objsat = objsAt([x, y]);
           const cell = {
             terrain: terrainMapping[_cell],
-            object: objat,
+            objects: objsat,
           };
           fn(cell, [x, y]);
         })

@@ -24,7 +24,8 @@ export type EventFn = (
 
 export type CommonObject = {
   name: string;
-  drawInstructions: DrawInstructions[];
+  drawInstructions: () => DrawInstructions[];
   passable: boolean;
+  z: number;
   events?: Record<EventType, EventFn>;
 };

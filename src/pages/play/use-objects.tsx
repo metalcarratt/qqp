@@ -2,28 +2,34 @@ import { createContext, PropsWithChildren, useContext, useReducer } from "react"
 import { player } from "./objects/player";
 import { diamond } from "./objects/diamond";
 import { CommonObject } from "./object-types";
+import { Colour } from "./objects/colours";
+import { downStairs } from "./objects/stairs";
 
 export type Obj = {
-  //   type: number;
   at: number[];
   id: number;
 } & CommonObject;
 
 const startObjects: Obj[] = [
   {
-    id: 0,
-    at: [3, 3],
-    ...player,
-  },
-  {
     id: 1,
     at: [1, 3],
-    ...diamond,
+    ...diamond(Colour.Yellow),
   },
   {
     id: 2,
     at: [1, 1],
-    ...diamond,
+    ...diamond(Colour.Red),
+  },
+  {
+    id: 3,
+    at: [4, 1],
+    ...downStairs
+  },
+  {
+    id: 0,
+    at: [3, 3],
+    ...player,
   },
 ];
 
@@ -40,6 +46,7 @@ export type UseObjects = {
   updatePlayer: (fn: (player: Obj) => Obj) => void;
   killObjs: (killids: number[]) => void;
   objAt: ([x, y]: number[]) => Obj | undefined;
+  objsAt: ([x, y]: number[]) => Obj[];
 };
 
 const ObjectContext = createContext<UseObjects | null>(null);
@@ -71,7 +78,10 @@ export const ObjectProvider = ({ children }: PropsWithChildren) => {
   const objAt: UseObjects["objAt"] = ([x, y]) =>
     state.objs.find((o) => o.at[0] === x && o.at[1] === y);
 
-  const value = { updatePlayer, killObjs, objAt };
+  const objsAt: UseObjects["objsAt"] = ([x, y]) =>
+    state.objs.filter((o) => o.at[0] === x && o.at[1] === y).sort((a, b) => a.z - b.z);
+
+  const value = { updatePlayer, killObjs, objAt, objsAt };
   return (
     <ObjectContext.Provider value={value}>{children}</ObjectContext.Provider>
   );

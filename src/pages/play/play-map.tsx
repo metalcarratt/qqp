@@ -31,7 +31,7 @@ export const PlayMap = () => {
         return () => {
             document.removeEventListener('keydown', keypresses, true);
         }
-    }, [])
+    }, [keypresses])
 
     return (
         <div className={styles.page}>

@@ -1,19 +1,22 @@
 import { CommonObject, DrawType, EventType } from "../object-types";
+import { Colour } from "./colours";
 
-export const diamond: CommonObject = {
+const draw = (color: Colour) => [
+  {
+    type: DrawType.Path,
+    path: [
+      [25, 7],
+      [7, 25],
+      [25, 43],
+      [43, 25],
+    ],
+    color,
+  },
+];
+
+export const diamond = (colour: Colour): CommonObject => ({
   name: "diamond",
-  drawInstructions: [
-    {
-      type: DrawType.Path,
-      path: [
-        [25, 7],
-        [7, 25],
-        [25, 43],
-        [43, 25],
-      ],
-      color: "yellow",
-    },
-  ],
+  drawInstructions: () => draw(colour),
   passable: false,
   events: {
     [EventType.Collect]: (globalState) => {
@@ -21,4 +24,5 @@ export const diamond: CommonObject = {
       return { killSelf: true };
     },
   },
-};
+  z: 1,
+});

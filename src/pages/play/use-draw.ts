@@ -37,13 +37,13 @@ export const useDraw = ({ width, height, map }: MapDetails) => {
       const fromx = middle.x - drawWidth / 2 + x * 50;
       const fromy = middle.y - drawHeight / 2 + y * 50;
 
-      const instructions = cell.terrain.drawInstructions;
+      const instructions = cell.terrain.drawInstructions();
       doDraw(instructions, ctx, { x: fromx, y: fromy });
 
-      if (cell.object) {
-        const instructions2 = cell.object.drawInstructions;
+      cell.objects?.forEach((object) => {
+        const instructions2 = object.drawInstructions();
         doDraw(instructions2, ctx, { x: fromx, y: fromy });
-      }
+      });
     });
   };
 
