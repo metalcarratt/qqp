@@ -38,8 +38,8 @@ export const key = (colour: Colour): CommonObject => ({
   drawInstructions: () => draw(colour),
   passable: true,
   events: {
-    standOn: (globalState) => {
-      globalState.addInventory(InventoryItem.RedKey);
+    standOn: ({ global }) => {
+      global.addInventory(InventoryItem.RedKey);
       return { killSelf: true };
     },
   },

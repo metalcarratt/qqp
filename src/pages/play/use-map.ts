@@ -1,23 +1,9 @@
-import { useState } from "react";
-import { floor } from "./objects/floor";
-import { wall } from "./objects/wall";
 import { CommonObject } from "./object-types";
 import { GlobalState } from "./use-global-state";
 import { Obj, useObjects } from "./use-objects";
-
-const startGrid = [
-  [1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 1, 0, 1],
-  [1, 1, 1, 0, 0, 1, 0, 1],
-  [1, 0, 0, 0, 0, 1, 0, 1],
-  [1, 1, 1, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1],
-];
-
-const terrainMapping: Record<number, CommonObject> = {
-  0: floor,
-  1: wall,
-};
+import { useEffect } from "react";
+import { Level } from "./levels/level-type";
+import { Game } from "./misc-types";
 
 type ForEachFn = (cell: Cell, at: number[]) => void;
 type GameMap = {
@@ -39,10 +25,17 @@ type Cell = {
   objects?: CommonObject[];
 };
 
-export const useMap = (globalState: GlobalState): MapDetails => {
-  const { updatePlayer, killObjs, objAt, objsAt } = useObjects();
-  const [grid] = useState(startGrid);
-  //   const { updatePlayer, killObjs, objAt } = useObjects();
+export const useMap = (
+  globalState: GlobalState,
+  level: Level,
+  game: Game
+): MapDetails => {
+  const { updatePlayer, killObjs, objAt, objsAt, newLevel } = useObjects();
+  const grid = level.grid;
+
+  useEffect(() => {
+    newLevel(level.objects);
+  }, [level]);
 
   const map: GameMap = {
     forEach: (fn) => {
@@ -50,7 +43,7 @@ export const useMap = (globalState: GlobalState): MapDetails => {
         row.forEach((_cell, x) => {
           const objsat = objsAt([x, y]);
           const cell = {
-            terrain: terrainMapping[_cell],
+            terrain: level.terrainMapping[_cell],
             objects: objsat,
           };
           fn(cell, [x, y]);
@@ -63,7 +56,7 @@ export const useMap = (globalState: GlobalState): MapDetails => {
     const g = grid[y][x];
     const objat = objAt([x, y]);
     // console.log(objat);
-    const terrainPassable = terrainMapping[g].passable;
+    const terrainPassable = level.terrainMapping[g].passable;
     const objectPassable =
       !objat ||
       (typeof objat.passable === "boolean"
@@ -71,7 +64,11 @@ export const useMap = (globalState: GlobalState): MapDetails => {
         : objat.passable(globalState, objat));
     if (terrainPassable && objectPassable) {
       if (objat) {
-        const res = objat?.events?.standOn?.(globalState, objat);
+        const res = objat?.events?.standOn?.({
+          global: globalState,
+          self: objat.state || {},
+          game,
+        });
         if (res?.killSelf) {
           killids.push(objat.id);
         }

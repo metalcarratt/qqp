@@ -18,8 +18,8 @@ export const diamond = (colour: Colour): CommonObject => ({
   drawInstructions: () => draw(colour),
   passable: true,
   events: {
-    standOn: (globalState) => {
-      globalState.increaseDiamonds(1);
+    standOn: ({ global }) => {
+      global.increaseDiamonds(1);
       return { killSelf: true };
     },
   },

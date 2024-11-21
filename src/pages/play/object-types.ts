@@ -1,3 +1,4 @@
+import { Game } from "./misc-types";
 import { GlobalState } from "./use-global-state";
 
 export type DrawInstructions = {
@@ -15,10 +16,13 @@ export type DrawInstructions = {
 
 export type EventType = "standOn";
 
-export type EventFn = (
-  globalState: GlobalState,
-  self: CommonObject
-) => void | { killSelf?: boolean };
+export type EventFnProps = {
+  global: GlobalState;
+  self: Record<string, any>;
+  game: Game;
+};
+
+export type EventFn = (props: EventFnProps) => void | { killSelf?: boolean };
 
 export type PassableFn = (
   globalState: GlobalState,

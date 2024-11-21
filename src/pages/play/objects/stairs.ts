@@ -1,3 +1,4 @@
+import { Level } from "../levels/level-type";
 import { CommonObject } from "../object-types";
 
 const draw = [
@@ -45,9 +46,14 @@ const draw = [
   },
 ];
 
-export const downStairs: CommonObject = {
+export const downStairs = (moveTo: Level): CommonObject => ({
   name: "down-stairs",
   drawInstructions: () => draw,
   passable: true,
+  events: {
+    standOn: ({ game }) => {
+      game.changeLevel(moveTo);
+    },
+  },
   z: 1,
-};
+});

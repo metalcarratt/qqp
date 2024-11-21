@@ -68,9 +68,9 @@ export const door = (colour: Colour): CommonObject => ({
   passable: (globalState, self) =>
     globalState.inventory.includes(InventoryItem.RedKey) || self?.state?.open,
   events: {
-    standOn: (globalState, self) => {
-      globalState.removeInventory(InventoryItem.RedKey);
-      self.state && (self.state.open = true);
+    standOn: ({ global, self }) => {
+      global.removeInventory(InventoryItem.RedKey);
+      self.open = true;
     },
   },
   z: 1,
