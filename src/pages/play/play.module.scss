@@ -25,6 +25,17 @@
     padding: 20px;
     background-color: #d4d4ff;
     color: #3d3d6d;
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 0;
+    }
+
+    ul {
+      margin-top: 0;
+      padding: 0;
+      list-style: none;
+    }
   }
 
   .controls {

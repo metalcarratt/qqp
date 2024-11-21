@@ -6,12 +6,12 @@ import { GlobalState } from "./use-global-state";
 import { Obj, useObjects } from "./use-objects";
 
 const startGrid = [
-  [1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 1, 1, 0, 0, 1],
-  [1, 0, 0, 0, 0, 1],
-  [1, 1, 1, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 1, 0, 1],
+  [1, 1, 1, 0, 0, 1, 0, 1],
+  [1, 0, 0, 0, 0, 1, 0, 1],
+  [1, 1, 1, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1],
 ];
 
 const terrainMapping: Record<number, CommonObject> = {
@@ -61,10 +61,17 @@ export const useMap = (globalState: GlobalState): MapDetails => {
 
   const movePlayer = (player: Obj, [x, y]: number[], killids: number[]) => {
     const g = grid[y][x];
-    if (terrainMapping[g].passable) {
-      const objat = objAt([x, y]);
+    const objat = objAt([x, y]);
+    // console.log(objat);
+    const terrainPassable = terrainMapping[g].passable;
+    const objectPassable =
+      !objat ||
+      (typeof objat.passable === "boolean"
+        ? objat.passable
+        : objat.passable(globalState, objat));
+    if (terrainPassable && objectPassable) {
       if (objat) {
-        const res = objat?.events?.collect(globalState);
+        const res = objat?.events?.standOn?.(globalState, objat);
         if (res?.killSelf) {
           killids.push(objat.id);
         }

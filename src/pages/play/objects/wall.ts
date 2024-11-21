@@ -1,10 +1,11 @@
-import { CommonObject, DrawType } from "../object-types";
+import { CommonObject } from "../object-types";
 
 const draw = [
   {
-    type: DrawType.Square,
-    start: [0, 0],
-    length: [50, 50],
+    square: {
+      start: [0, 0],
+      length: [50, 50],
+    },
     color: "#9ca6c5",
   },
 ];

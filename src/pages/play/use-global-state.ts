@@ -1,29 +1,65 @@
 import { useReducer } from "react";
 
-export type GlobalState = {
+export enum InventoryItem {
+  RedKey = "Red Key",
+}
+
+type _State = {
   diamonds: number;
-  increaseDiamonds: (by: number) => void;
+  inventory: InventoryItem[];
 };
 
+export type GlobalState = {
+  increaseDiamonds: (by: number) => void;
+  addInventory: (item: InventoryItem) => void;
+  removeInventory: (item: InventoryItem) => void;
+} & _State;
+
 const reducer = (
-  { diamonds }: { diamonds: number },
-  action: { increaseDiamonds?: number }
+  { diamonds, inventory }: _State,
+  action: {
+    increaseDiamonds?: number;
+    addInventory?: InventoryItem;
+    removeInventory?: InventoryItem;
+  }
 ) => {
   if (action.increaseDiamonds) {
-    return { diamonds: diamonds + action.increaseDiamonds };
+    return { diamonds: diamonds + action.increaseDiamonds, inventory };
   }
 
-  return { diamonds };
+  if (action.addInventory) {
+    inventory.push(action.addInventory);
+    return { diamonds, inventory };
+  }
+
+  if (action.removeInventory) {
+    inventory.splice(inventory.indexOf(action.removeInventory), 1);
+    return { diamonds, inventory };
+  }
+
+  return { diamonds, inventory };
 };
 
 export const useGlobalState = () => {
-  const [{ diamonds }, dispatch] = useReducer(reducer, { diamonds: 0 });
+  const [{ diamonds, inventory }, dispatch] = useReducer(reducer, {
+    diamonds: 0,
+    inventory: [],
+  });
 
   const increaseDiamonds = (by: number) =>
     dispatch({ increaseDiamonds: diamonds + by });
 
+  const addInventory = (item: InventoryItem) =>
+    dispatch({ addInventory: item });
+
+  const removeInventory = (item: InventoryItem) =>
+    dispatch({ removeInventory: item });
+
   return {
-    diamonds: diamonds,
+    diamonds,
+    inventory,
     increaseDiamonds,
+    addInventory,
+    removeInventory,
   };
 };

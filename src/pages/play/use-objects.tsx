@@ -4,6 +4,8 @@ import { diamond } from "./objects/diamond";
 import { CommonObject } from "./object-types";
 import { Colour } from "./objects/colours";
 import { downStairs } from "./objects/stairs";
+import { door } from "./objects/door";
+import { key } from "./objects/key";
 
 export type Obj = {
   at: number[];
@@ -13,23 +15,33 @@ export type Obj = {
 const startObjects: Obj[] = [
   {
     id: 1,
-    at: [1, 3],
+    at: [2, 3],
     ...diamond(Colour.Yellow),
   },
   {
     id: 2,
-    at: [1, 1],
+    at: [1, 3],
     ...diamond(Colour.Red),
   },
   {
     id: 3,
-    at: [4, 1],
+    at: [6, 1],
     ...downStairs
   },
   {
-    id: 0,
+    id: 4,
     at: [3, 3],
     ...player,
+  },
+  {
+    id: 5,
+    at: [1, 1],
+    ...key(Colour.Red)
+  },
+  {
+    id: 6,
+    at: [5, 4],
+    ...door(Colour.Red),
   },
 ];
 

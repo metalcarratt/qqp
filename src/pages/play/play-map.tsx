@@ -13,14 +13,14 @@ export const PlayMap = () => {
     const {canvasRef} = useCanvas(draw);
 
     const keypresses = (e: KeyboardEvent) => {
-            
-        if (e.key === 'ArrowLeft') {
+        const k = e.key.toLowerCase();
+        if (k === 'a') {
             map.left();
-        } else if (e.key === 'ArrowUp') {
+        } else if (k === 'w') {
             map.up();
-        } else if (e.key === 'ArrowRight') {
+        } else if (k === 'd') {
             map.right();
-        } else if (e.key === 'ArrowDown') {
+        } else if (k === 's') {
             map.down();
         }
     }
@@ -39,18 +39,26 @@ export const PlayMap = () => {
             <div className={styles.sample} />
             <div className={styles.state}>
                 Diamonds: { global.diamonds }
+                {global.inventory.length ?
+                    <div>
+                        <h2>Inventory</h2>
+                        <ul>
+                            {global.inventory.map(i => <li>{i}</li>)}
+                        </ul>
+                    </div> : <></>
+                }
             </div>
             <div className={styles.controls}>
                 <table cellSpacing="10">
                     <tr>
                         <td/>
-                        <td className={styles.arrow} onClick={() => map.up()}>🠉</td>
+                        <td className={styles.arrow} onClick={() => map.up()}>W</td>
                         <td/>
                     </tr>
                     <tr>
-                        <td className={styles.arrow} onClick={() => map.left()}>🠈</td>
-                        <td className={styles.arrow} onClick={() => map.down()}>🠋</td>
-                        <td className={styles.arrow} onClick={() => map.right()}>🠊</td>
+                        <td className={styles.arrow} onClick={() => map.left()}>A</td>
+                        <td className={styles.arrow} onClick={() => map.down()}>S</td>
+                        <td className={styles.arrow} onClick={() => map.right()}>D</td>
                     </tr>
                 </table>
             </div>
