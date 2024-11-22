@@ -38,7 +38,7 @@ export const level1: Level = {
     {
       id: 3,
       at: [6, 1],
-      ...downStairs(level2),
+      ...downStairs("2"),
     },
     {
       id: 4,

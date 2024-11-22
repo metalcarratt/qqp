@@ -1,5 +1,5 @@
 import { Level } from "./level-type";
-import { wall, player, floor } from "../objects";
+import { wall, player, floor, upStairs } from "../objects";
 
 export const level2: Level = {
   grid: [
@@ -19,6 +19,11 @@ export const level2: Level = {
       id: 0,
       at: [6, 1],
       ...player,
+    },
+    {
+      id: 1,
+      at: [6, 1],
+      ...upStairs("1"),
     },
   ],
 };

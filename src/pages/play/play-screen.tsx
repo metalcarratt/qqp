@@ -5,14 +5,13 @@ import { useGlobalState } from "./use-global-state";
 import { useMap } from "./use-map";
 import styles from './play.module.scss';
 import { useLevels } from "./levels/use-levels";
-import { Level } from "./levels/level-type";
 import { Game } from "./misc-types";
 
 export const PlayScreen = () => {
     const global = useGlobalState();
-    const {level, setLevel} = useLevels();
-    const changeLevel = (level: Level) => {
-        setLevel(level);
+    const {level, changeLevelName} = useLevels();
+    const changeLevel = (level: string) => {
+        changeLevelName(level);
     }
     const game: Game = {
         changeLevel

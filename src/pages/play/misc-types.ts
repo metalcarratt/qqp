@@ -1,5 +1,3 @@
-import { Level } from "./levels/level-type";
-
 export type Game = {
-  changeLevel: (level: Level) => void;
+  changeLevel: (level: string) => void;
 };
