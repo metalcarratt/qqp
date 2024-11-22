@@ -1,4 +1,3 @@
-import { Level } from "../levels/level-type";
 import { CommonObject } from "../object-types";
 
 const draw = [

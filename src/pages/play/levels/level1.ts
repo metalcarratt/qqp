@@ -9,7 +9,6 @@ import {
   diamond,
 } from "../objects";
 import { Colour } from "../objects/colours";
-import { level2 } from "./level2";
 
 export const level1: Level = {
   grid: [
